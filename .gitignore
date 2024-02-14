@@ -1,4 +1,5 @@
 vivado_project/
 example_designs/
+rfd_*.log
 *~
 hs_err*
