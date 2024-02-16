@@ -26,12 +26,8 @@ module mts_bd_wrapper
     Vp_Vn_0_v_p,
     adc0_clk_0_clk_n,
     adc0_clk_0_clk_p,
-    adc1_clk_0_clk_n,
-    adc1_clk_0_clk_p,
     adc2_clk_0_clk_n,
     adc2_clk_0_clk_p,
-    adc3_clk_0_clk_n,
-    adc3_clk_0_clk_p,
     clk_adc0_0,
     dac0_clk_0_clk_n,
     dac0_clk_0_clk_p,
@@ -41,24 +37,12 @@ module mts_bd_wrapper
     m02_axis_0_tdata,
     m02_axis_0_tready,
     m02_axis_0_tvalid,
-    m10_axis_0_tdata,
-    m10_axis_0_tready,
-    m10_axis_0_tvalid,
-    m12_axis_0_tdata,
-    m12_axis_0_tready,
-    m12_axis_0_tvalid,
     m20_axis_0_tdata,
     m20_axis_0_tready,
     m20_axis_0_tvalid,
     m22_axis_0_tdata,
     m22_axis_0_tready,
     m22_axis_0_tvalid,
-    m30_axis_0_tdata,
-    m30_axis_0_tready,
-    m30_axis_0_tvalid,
-    m32_axis_0_tdata,
-    m32_axis_0_tready,
-    m32_axis_0_tvalid,
     pl_clk0,
     pl_resetn0,
     s_axi_aclk_0,
@@ -72,18 +56,10 @@ module mts_bd_wrapper
     vin0_01_0_v_p,
     vin0_23_0_v_n,
     vin0_23_0_v_p,
-    vin1_01_0_v_n,
-    vin1_01_0_v_p,
-    vin1_23_0_v_n,
-    vin1_23_0_v_p,
     vin2_01_0_v_n,
     vin2_01_0_v_p,
     vin2_23_0_v_n,
     vin2_23_0_v_p,
-    vin3_01_0_v_n,
-    vin3_01_0_v_p,
-    vin3_23_0_v_n,
-    vin3_23_0_v_p,
     vout00_0_v_n,
     vout00_0_v_p);
   input [127:0]S_AXIS_0_tdata;
@@ -102,12 +78,8 @@ module mts_bd_wrapper
   input Vp_Vn_0_v_p;
   input adc0_clk_0_clk_n;
   input adc0_clk_0_clk_p;
-  input adc1_clk_0_clk_n;
-  input adc1_clk_0_clk_p;
   input adc2_clk_0_clk_n;
   input adc2_clk_0_clk_p;
-  input adc3_clk_0_clk_n;
-  input adc3_clk_0_clk_p;
   output clk_adc0_0;
   input dac0_clk_0_clk_n;
   input dac0_clk_0_clk_p;
@@ -117,24 +89,12 @@ module mts_bd_wrapper
   output [127:0]m02_axis_0_tdata;
   input m02_axis_0_tready;
   output m02_axis_0_tvalid;
-  output [127:0]m10_axis_0_tdata;
-  input m10_axis_0_tready;
-  output m10_axis_0_tvalid;
-  output [127:0]m12_axis_0_tdata;
-  input m12_axis_0_tready;
-  output m12_axis_0_tvalid;
   output [127:0]m20_axis_0_tdata;
   input m20_axis_0_tready;
   output m20_axis_0_tvalid;
   output [127:0]m22_axis_0_tdata;
   input m22_axis_0_tready;
   output m22_axis_0_tvalid;
-  output [127:0]m30_axis_0_tdata;
-  input m30_axis_0_tready;
-  output m30_axis_0_tvalid;
-  output [127:0]m32_axis_0_tdata;
-  input m32_axis_0_tready;
-  output m32_axis_0_tvalid;
   output pl_clk0;
   output pl_resetn0;
   input s_axi_aclk_0;
@@ -148,18 +108,10 @@ module mts_bd_wrapper
   input vin0_01_0_v_p;
   input vin0_23_0_v_n;
   input vin0_23_0_v_p;
-  input vin1_01_0_v_n;
-  input vin1_01_0_v_p;
-  input vin1_23_0_v_n;
-  input vin1_23_0_v_p;
   input vin2_01_0_v_n;
   input vin2_01_0_v_p;
   input vin2_23_0_v_n;
   input vin2_23_0_v_p;
-  input vin3_01_0_v_n;
-  input vin3_01_0_v_p;
-  input vin3_23_0_v_n;
-  input vin3_23_0_v_p;
   output vout00_0_v_n;
   output vout00_0_v_p;
 
@@ -179,12 +131,8 @@ module mts_bd_wrapper
   wire Vp_Vn_0_v_p;
   wire adc0_clk_0_clk_n;
   wire adc0_clk_0_clk_p;
-  wire adc1_clk_0_clk_n;
-  wire adc1_clk_0_clk_p;
   wire adc2_clk_0_clk_n;
   wire adc2_clk_0_clk_p;
-  wire adc3_clk_0_clk_n;
-  wire adc3_clk_0_clk_p;
   wire clk_adc0_0;
   wire dac0_clk_0_clk_n;
   wire dac0_clk_0_clk_p;
@@ -194,24 +142,12 @@ module mts_bd_wrapper
   wire [127:0]m02_axis_0_tdata;
   wire m02_axis_0_tready;
   wire m02_axis_0_tvalid;
-  wire [127:0]m10_axis_0_tdata;
-  wire m10_axis_0_tready;
-  wire m10_axis_0_tvalid;
-  wire [127:0]m12_axis_0_tdata;
-  wire m12_axis_0_tready;
-  wire m12_axis_0_tvalid;
   wire [127:0]m20_axis_0_tdata;
   wire m20_axis_0_tready;
   wire m20_axis_0_tvalid;
   wire [127:0]m22_axis_0_tdata;
   wire m22_axis_0_tready;
   wire m22_axis_0_tvalid;
-  wire [127:0]m30_axis_0_tdata;
-  wire m30_axis_0_tready;
-  wire m30_axis_0_tvalid;
-  wire [127:0]m32_axis_0_tdata;
-  wire m32_axis_0_tready;
-  wire m32_axis_0_tvalid;
   wire pl_clk0;
   wire pl_resetn0;
   wire s_axi_aclk_0;
@@ -225,18 +161,10 @@ module mts_bd_wrapper
   wire vin0_01_0_v_p;
   wire vin0_23_0_v_n;
   wire vin0_23_0_v_p;
-  wire vin1_01_0_v_n;
-  wire vin1_01_0_v_p;
-  wire vin1_23_0_v_n;
-  wire vin1_23_0_v_p;
   wire vin2_01_0_v_n;
   wire vin2_01_0_v_p;
   wire vin2_23_0_v_n;
   wire vin2_23_0_v_p;
-  wire vin3_01_0_v_n;
-  wire vin3_01_0_v_p;
-  wire vin3_23_0_v_n;
-  wire vin3_23_0_v_p;
   wire vout00_0_v_n;
   wire vout00_0_v_p;
 
@@ -257,12 +185,8 @@ module mts_bd_wrapper
         .Vp_Vn_0_v_p(Vp_Vn_0_v_p),
         .adc0_clk_0_clk_n(adc0_clk_0_clk_n),
         .adc0_clk_0_clk_p(adc0_clk_0_clk_p),
-        .adc1_clk_0_clk_n(adc1_clk_0_clk_n),
-        .adc1_clk_0_clk_p(adc1_clk_0_clk_p),
         .adc2_clk_0_clk_n(adc2_clk_0_clk_n),
         .adc2_clk_0_clk_p(adc2_clk_0_clk_p),
-        .adc3_clk_0_clk_n(adc3_clk_0_clk_n),
-        .adc3_clk_0_clk_p(adc3_clk_0_clk_p),
         .clk_adc0_0(clk_adc0_0),
         .dac0_clk_0_clk_n(dac0_clk_0_clk_n),
         .dac0_clk_0_clk_p(dac0_clk_0_clk_p),
@@ -272,24 +196,12 @@ module mts_bd_wrapper
         .m02_axis_0_tdata(m02_axis_0_tdata),
         .m02_axis_0_tready(m02_axis_0_tready),
         .m02_axis_0_tvalid(m02_axis_0_tvalid),
-        .m10_axis_0_tdata(m10_axis_0_tdata),
-        .m10_axis_0_tready(m10_axis_0_tready),
-        .m10_axis_0_tvalid(m10_axis_0_tvalid),
-        .m12_axis_0_tdata(m12_axis_0_tdata),
-        .m12_axis_0_tready(m12_axis_0_tready),
-        .m12_axis_0_tvalid(m12_axis_0_tvalid),
         .m20_axis_0_tdata(m20_axis_0_tdata),
         .m20_axis_0_tready(m20_axis_0_tready),
         .m20_axis_0_tvalid(m20_axis_0_tvalid),
         .m22_axis_0_tdata(m22_axis_0_tdata),
         .m22_axis_0_tready(m22_axis_0_tready),
         .m22_axis_0_tvalid(m22_axis_0_tvalid),
-        .m30_axis_0_tdata(m30_axis_0_tdata),
-        .m30_axis_0_tready(m30_axis_0_tready),
-        .m30_axis_0_tvalid(m30_axis_0_tvalid),
-        .m32_axis_0_tdata(m32_axis_0_tdata),
-        .m32_axis_0_tready(m32_axis_0_tready),
-        .m32_axis_0_tvalid(m32_axis_0_tvalid),
         .pl_clk0(pl_clk0),
         .pl_resetn0(pl_resetn0),
         .s_axi_aclk_0(s_axi_aclk_0),
@@ -303,18 +215,10 @@ module mts_bd_wrapper
         .vin0_01_0_v_p(vin0_01_0_v_p),
         .vin0_23_0_v_n(vin0_23_0_v_n),
         .vin0_23_0_v_p(vin0_23_0_v_p),
-        .vin1_01_0_v_n(vin1_01_0_v_n),
-        .vin1_01_0_v_p(vin1_01_0_v_p),
-        .vin1_23_0_v_n(vin1_23_0_v_n),
-        .vin1_23_0_v_p(vin1_23_0_v_p),
         .vin2_01_0_v_n(vin2_01_0_v_n),
         .vin2_01_0_v_p(vin2_01_0_v_p),
         .vin2_23_0_v_n(vin2_23_0_v_n),
         .vin2_23_0_v_p(vin2_23_0_v_p),
-        .vin3_01_0_v_n(vin3_01_0_v_n),
-        .vin3_01_0_v_p(vin3_01_0_v_p),
-        .vin3_23_0_v_n(vin3_23_0_v_n),
-        .vin3_23_0_v_p(vin3_23_0_v_p),
         .vout00_0_v_n(vout00_0_v_n),
         .vout00_0_v_p(vout00_0_v_p));
 endmodule
