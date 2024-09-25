@@ -3,24 +3,24 @@
 module rfsoc4x2_top(
         input VP, // no pinloc
         input VN, // no pinloc
-        input ADC0_CLK_P,   // AF5
-        input ADC0_CLK_N,   // AF4
-        input ADC0_VIN_P,   // AP2      -- NOTE THESE ARE INVERTED
-        input ADC0_VIN_N,   // AP1      -- W-T-F REAL DIGITAL??
-        input ADC1_VIN_P,   // AM2      -- HOW DOES THIS WORK
-        input ADC1_VIN_N,   // AM1      -- ????
-        input ADC4_CLK_P,   // AB5
-        input ADC4_CLK_N,   // AB4
+        input ADC0_CLK_P,   // AF5 - NOT IN XDC
+        input ADC0_CLK_N,   // AF4 - NOT IN XDC
+        input ADC0_VIN_P,   // AP2                  -- NOTE THESE ARE INVERTED
+        input ADC0_VIN_N,   // AP1                  -- W-T-F REAL DIGITAL??
+        input ADC1_VIN_P,   // AM2                  -- HOW DOES THIS WORK
+        input ADC1_VIN_N,   // AM1      
+        input ADC4_CLK_P,   // AB5 - NOT IN XDC
+        input ADC4_CLK_N,   // AB4 - NOT IN XDC
         input ADC4_VIN_P,   // AF2
         input ADC4_VIN_N,   // AF1
         input ADC5_VIN_P,   // AD2
         input ADC5_VIN_N,   // AD1
         input DAC0_CLK_P,   // R5
         input DAC0_CLK_N,   // R4
-        output DAC0_VOUT_P, // U2
-        output DAC0_VOUT_N, // U1
-        input SYSREF_P,     // U5
-        input SYSREF_N,     // U4
+        output DAC0_VOUT_P, // U2  - NOT IN XDC
+        output DAC0_VOUT_N, // U1  - NOT IN XDC
+        input SYSREF_P,     // U5  - NOT IN XDC
+        input SYSREF_N,     // U4  - NOT IN XDC
         input FPGA_REFCLK_IN_P, // AN11
         input FPGA_REFCLK_IN_N, // AP11
         input SYSREF_FPGA_P,    // AP18
@@ -36,6 +36,16 @@ module rfsoc4x2_top(
     wire aclk;
     // this is the half-speed clock used for the DACs, ADC capture, and SYSREF cap
     wire aclk_div2;
+    // ADC AXI4-Streams
+    `DEFINE_AXI4S_MIN_IF( adc0_ , 128 );
+    `DEFINE_AXI4S_MIN_IF( adc1_ , 128 );
+    `DEFINE_AXI4S_MIN_IF( adc2_ , 128 );
+    `DEFINE_AXI4S_MIN_IF( adc3_ , 128 );
+    // Streams going to readout buffers
+    `DEFINE_AXI4S_MIN_IF( buf0_ , 128 );
+    `DEFINE_AXI4S_MIN_IF( buf1_ , 128 );
+    `DEFINE_AXI4S_MIN_IF( buf2_ , 128 );
+    `DEFINE_AXI4S_MIN_IF( buf3_ , 128 );
     
     IBUFDS u_aclk_ibuf(.I(FPGA_REFCLK_IN_P),
                        .IB(FPGA_REFCLK_IN_N),
@@ -83,7 +93,7 @@ module rfsoc4x2_top(
 
     clk_count_vio u_clkcount(.clk(ps_clk),.probe_in0(aclk_freq_ps));
 
-
+    // ** PS **
     mts_bd_wrapper u_ps(.Vp_Vn_0_v_p( VP ),
                         .Vp_Vn_0_v_n( VN ),
                         .sysref_in_0_diff_p( SYSREF_P ),
@@ -119,5 +129,27 @@ module rfsoc4x2_top(
                         .pl_resetn0( ps_reset ),
                         .clk_adc0_0(adc_clk),
                         .user_sysref_adc_0( sysref_reg ));
+
+    // ** ESSENTIALLY COPIED FROM ZCU111 FIRMWARE **
+    parameter THIS_DESIGN = "BASIC";
+
+    generate
+        if (THIS_DESIGN == "BASIC") begin : BSC
+            basic_design u_design(  .wb_clk_i(ps_clk),
+                            .wb_rst_i(1'b0),
+                            `CONNECT_WBS_IFS( wb_ , bm_ ),
+                            .aclk(aclk),
+                            .aresetn(1'b1),
+                            `CONNECT_AXI4S_MIN_IF( adc0_ , adc0_ ),
+                            `CONNECT_AXI4S_MIN_IF( adc1_ , adc1_ ),
+                            `CONNECT_AXI4S_MIN_IF( adc2_ , adc2_ ),
+                            `CONNECT_AXI4S_MIN_IF( adc3_ , adc3_ ),
+                            // buffers
+                            `CONNECT_AXI4S_MIN_IF( buf0_ , buf0_ ),
+                            `CONNECT_AXI4S_MIN_IF( buf1_ , buf1_ ),
+                            `CONNECT_AXI4S_MIN_IF( buf2_ , buf2_ ),
+                            `CONNECT_AXI4S_MIN_IF( buf3_ , buf3_ )); 
+        end
+    endgenerate
     
 endmodule

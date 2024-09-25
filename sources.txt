@@ -1,1 +1,8 @@
 bd/mts_bd/mts_bd.bd
+hdl/rfsoc4x2_top.sv
+hdl/mts_bd_wrapper.v
+hdl/pl_gpio_adc_if.v
+hdl/adc_cap_x2.v
+verilog-library-barawn/include/interfaces.vh
+verilog-library-barawn/hdl/flag_sync.v
+pueo-pynq-designs/hdl/basic_design.sv

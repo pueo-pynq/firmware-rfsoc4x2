@@ -32,7 +32,6 @@
       },
       "axi_smc": "",
       "debug_bridge_0": "",
-      "pl_gpio_adc_if_0": "",
       "ps8_0_axi_periph": {
         "xbar": "",
         "s00_couplers": {
@@ -48,7 +47,8 @@
       "system_management_wiz_0": "",
       "usp_rf_data_converter_0": "",
       "xlconcat_0": "",
-      "zynq_ultra_ps_e_0": ""
+      "zynq_ultra_ps_e_0": "",
+      "pl_gpio_adc_if_0": ""
     },
     "interface_ports": {
       "S_AXIS_0": {
@@ -2564,76 +2564,6 @@
           }
         }
       },
-      "pl_gpio_adc_if_0": {
-        "vlnv": "xilinx.com:module_ref:pl_gpio_adc_if:1.0",
-        "xci_name": "mts_bd_pl_gpio_adc_if_0_0",
-        "xci_path": "ip\\mts_bd_pl_gpio_adc_if_0_0\\mts_bd_pl_gpio_adc_if_0_0.xci",
-        "inst_hier_path": "pl_gpio_adc_if_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "pl_gpio_adc_if",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "ps_clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "FREQ_HZ": {
-                "value": "99999985",
-                "value_src": "user_prop"
-              },
-              "CLK_DOMAIN": {
-                "value": "mts_bd_zynq_ultra_ps_e_0_0_pl_clk0",
-                "value_src": "default_prop"
-              }
-            }
-          },
-          "adc_div2_clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "FREQ_HZ": {
-                "value": "187500000",
-                "value_src": "user_prop"
-              },
-              "CLK_DOMAIN": {
-                "value": "mts_bd_s_axi_aclk_0",
-                "value_src": "default_prop"
-              }
-            }
-          },
-          "gpio_to_ps": {
-            "direction": "O",
-            "left": "15",
-            "right": "0"
-          },
-          "gpio_from_ps": {
-            "direction": "I",
-            "left": "15",
-            "right": "0"
-          },
-          "gpio_direction": {
-            "direction": "I",
-            "left": "15",
-            "right": "0"
-          },
-          "capture_o": {
-            "direction": "O"
-          },
-          "done_i": {
-            "direction": "I",
-            "left": "7",
-            "right": "0",
-            "parameters": {
-              "PortWidth": {
-                "value": "8",
-                "value_src": "ip_prop"
-              }
-            }
-          }
-        }
-      },
       "ps8_0_axi_periph": {
         "vlnv": "xilinx.com:ip:axi_interconnect:2.1",
         "xci_path": "ip\\mts_bd_ps8_0_axi_periph_0\\mts_bd_ps8_0_axi_periph_0.xci",
@@ -4859,7 +4789,7 @@
             "value": "1"
           },
           "PSU__CSUPMU__PERIPHERAL__VALID": {
-            "value": "1"
+            "value": "0"
           },
           "PSU__CSU__CSU_TAMPER_0__ENABLE": {
             "value": "0"
@@ -5153,9 +5083,6 @@
             "value": "0"
           },
           "PSU__EXPAND__UPPER_LPS_SLAVES": {
-            "value": "0"
-          },
-          "PSU__FPDMASTERS_COHERENCY": {
             "value": "0"
           },
           "PSU__FPD_SLCR__WDT1__ACT_FREQMHZ": {
@@ -5810,16 +5737,16 @@
             "value": "SD 2.0"
           },
           "PSU__SD1__CLK_100_SDR_OTAP_DLY": {
-            "value": "0x0"
+            "value": "0x3"
           },
           "PSU__SD1__CLK_200_SDR_OTAP_DLY": {
-            "value": "0x0"
+            "value": "0x3"
           },
           "PSU__SD1__CLK_50_DDR_ITAP_DLY": {
-            "value": "0x0"
+            "value": "0x3D"
           },
           "PSU__SD1__CLK_50_DDR_OTAP_DLY": {
-            "value": "0x0"
+            "value": "0x4"
           },
           "PSU__SD1__CLK_50_SDR_ITAP_DLY": {
             "value": "0x15"
@@ -6333,6 +6260,76 @@
             }
           }
         }
+      },
+      "pl_gpio_adc_if_0": {
+        "vlnv": "xilinx.com:module_ref:pl_gpio_adc_if:1.0",
+        "xci_name": "mts_bd_pl_gpio_adc_if_0_0",
+        "xci_path": "ip\\mts_bd_pl_gpio_adc_if_0_0\\mts_bd_pl_gpio_adc_if_0_0.xci",
+        "inst_hier_path": "pl_gpio_adc_if_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "pl_gpio_adc_if",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "ps_clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "FREQ_HZ": {
+                "value": "99999985",
+                "value_src": "user_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "mts_bd_zynq_ultra_ps_e_0_0_pl_clk0",
+                "value_src": "default_prop"
+              }
+            }
+          },
+          "adc_div2_clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "FREQ_HZ": {
+                "value": "187500000",
+                "value_src": "user_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "mts_bd_s_axi_aclk_0",
+                "value_src": "default_prop"
+              }
+            }
+          },
+          "gpio_to_ps": {
+            "direction": "O",
+            "left": "15",
+            "right": "0"
+          },
+          "gpio_from_ps": {
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "gpio_direction": {
+            "direction": "I",
+            "left": "15",
+            "right": "0"
+          },
+          "capture_o": {
+            "direction": "O"
+          },
+          "done_i": {
+            "direction": "I",
+            "left": "7",
+            "right": "0",
+            "parameters": {
+              "PortWidth": {
+                "value": "8",
+                "value_src": "ip_prop"
+              }
+            }
+          }
+        }
       }
     },
     "interface_nets": {
@@ -6566,9 +6563,9 @@
           "adc_cap_2/s_axi_aclk",
           "adc_cap_3/s_axi_aclk",
           "axi_smc/aclk",
-          "pl_gpio_adc_if_0/adc_div2_clk",
           "rst_s_axi_aclk_0_187M/slowest_sync_clk",
-          "zynq_ultra_ps_e_0/maxihpm1_fpd_aclk"
+          "zynq_ultra_ps_e_0/maxihpm1_fpd_aclk",
+          "pl_gpio_adc_if_0/adc_div2_clk"
         ]
       },
       "s_axi_aresetn_0_1": {
@@ -6640,7 +6637,6 @@
           "zynq_ultra_ps_e_0/pl_clk0",
           "pl_clk0",
           "debug_bridge_0/s_axi_aclk",
-          "pl_gpio_adc_if_0/ps_clk",
           "ps8_0_axi_periph/ACLK",
           "ps8_0_axi_periph/S00_ACLK",
           "ps8_0_axi_periph/M00_ACLK",
@@ -6649,7 +6645,8 @@
           "rst_ps8_0_99M/slowest_sync_clk",
           "system_management_wiz_0/s_axi_aclk",
           "usp_rf_data_converter_0/s_axi_aclk",
-          "zynq_ultra_ps_e_0/maxihpm0_fpd_aclk"
+          "zynq_ultra_ps_e_0/maxihpm0_fpd_aclk",
+          "pl_gpio_adc_if_0/ps_clk"
         ]
       },
       "zynq_ultra_ps_e_0_pl_resetn0": {

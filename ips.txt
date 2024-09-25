@@ -1,0 +1,2 @@
+ip/clk_count_vio/clk_count_vio.xci
+ip/ref_clk_wiz/ref_clk_wiz.xci

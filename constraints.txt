@@ -1,0 +1,2 @@
+constraints/rfsoc4x2_pins.xdc
+constraints/rfsoc4x2_timing.tcl
