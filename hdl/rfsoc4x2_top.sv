@@ -3,14 +3,14 @@
 module rfsoc4x2_top(
         input VP, // no pinloc
         input VN, // no pinloc
-        input ADC0_CLK_P,   // AF5 - NOT IN XDC
-        input ADC0_CLK_N,   // AF4 - NOT IN XDC
+        input ADC0_CLK_P,   // AF5
+        input ADC0_CLK_N,   // AF4
         input ADC0_VIN_P,   // AP2                  -- NOTE THESE ARE INVERTED
         input ADC0_VIN_N,   // AP1                  -- W-T-F REAL DIGITAL??
         input ADC1_VIN_P,   // AM2                  -- HOW DOES THIS WORK
         input ADC1_VIN_N,   // AM1      
-        input ADC4_CLK_P,   // AB5 - NOT IN XDC
-        input ADC4_CLK_N,   // AB4 - NOT IN XDC
+        input ADC4_CLK_P,   // AB5
+        input ADC4_CLK_N,   // AB4
         input ADC4_VIN_P,   // AF2
         input ADC4_VIN_N,   // AF1
         input ADC5_VIN_P,   // AD2
@@ -39,8 +39,8 @@ module rfsoc4x2_top(
     // ADC AXI4-Streams
     `DEFINE_AXI4S_MIN_IF( adc0_ , 128 );
     `DEFINE_AXI4S_MIN_IF( adc1_ , 128 );
-    `DEFINE_AXI4S_MIN_IF( adc2_ , 128 );
-    `DEFINE_AXI4S_MIN_IF( adc3_ , 128 );
+    `DEFINE_AXI4S_MIN_IF( adc4_ , 128 );
+    `DEFINE_AXI4S_MIN_IF( adc5_ , 128 );
     // Streams going to readout buffers
     `DEFINE_AXI4S_MIN_IF( buf0_ , 128 );
     `DEFINE_AXI4S_MIN_IF( buf1_ , 128 );
@@ -122,8 +122,8 @@ module rfsoc4x2_top(
                         .s_axis_aresetn_0( 1'b1 ),
                         `CONNECT_AXI4S_MIN_IF( S_AXIS_0_ , adc0_ ),
                         `CONNECT_AXI4S_MIN_IF( S_AXIS_1_ , adc1_ ),
-                        `CONNECT_AXI4S_MIN_IF( S_AXIS_2_ , adc2_ ),
-                        `CONNECT_AXI4S_MIN_IF( S_AXIS_3_ , adc3_ ),
+                        `CONNECT_AXI4S_MIN_IF( S_AXIS_2_ , adc4_ ),
+                        `CONNECT_AXI4S_MIN_IF( S_AXIS_3_ , adc5_ ),
 
                         .pl_clk0( ps_clk ),
                         .pl_resetn0( ps_reset ),
@@ -142,8 +142,8 @@ module rfsoc4x2_top(
                             .aresetn(1'b1),
                             `CONNECT_AXI4S_MIN_IF( adc0_ , adc0_ ),
                             `CONNECT_AXI4S_MIN_IF( adc1_ , adc1_ ),
-                            `CONNECT_AXI4S_MIN_IF( adc2_ , adc2_ ),
-                            `CONNECT_AXI4S_MIN_IF( adc3_ , adc3_ ),
+                            `CONNECT_AXI4S_MIN_IF( adc4_ , adc4_ ),
+                            `CONNECT_AXI4S_MIN_IF( adc5_ , adc5_ ),
                             // buffers
                             `CONNECT_AXI4S_MIN_IF( buf0_ , buf0_ ),
                             `CONNECT_AXI4S_MIN_IF( buf1_ , buf1_ ),

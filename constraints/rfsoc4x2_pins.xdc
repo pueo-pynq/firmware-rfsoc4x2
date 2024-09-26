@@ -6,6 +6,10 @@ set_property IOSTANDARD ANALOG [get_ports VN]
 # clks
 set_property PACKAGE_PIN R5 [get_ports DAC0_CLK_P]
 set_property PACKAGE_PIN R4 [get_ports DAC0_CLK_N]
+set_property PACKAGE_PIN AF5 [get_ports ADC0_CLK_P]
+set_property PACKAGE_PIN AF4 [get_ports ADC0_CLK_N]
+set_property PACKAGE_PIN AB5 [get_ports ADC4_CLK_P]
+set_property PACKAGE_PIN AB4 [get_ports ADC4_CLK_N]
 
 # maybe these don't even need anything?
 set_property -dict {PACKAGE_PIN AP2} [get_ports ADC0_VIN_P]
