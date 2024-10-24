@@ -124,69 +124,56 @@ module rfsoc4x2_top(
                         .s_axi_aresetn_0( 1'b1 ),
                         .s_axis_aclk_0( aclk ),
                         .s_axis_aresetn_0( 1'b1 ),
-                        `CONNECT_AXI4S_MIN_IF( S_AXIS_0_ , adc0_ ),         // raw adc0 data
-                        `CONNECT_AXI4S_MIN_IF( S_AXIS_1_ , gz_results_ ),   // gz0 data
-                        `CONNECT_AXI4S_MIN_IF( S_AXIS_2_ , adc4_ ),       
-                        `CONNECT_AXI4S_MIN_IF( S_AXIS_3_ , adc5_ ),
+                        `CONNECT_AXI4S_MIN_IF( S_AXIS_0_ , buf0_ ),
+                        `CONNECT_AXI4S_MIN_IF( S_AXIS_1_ , buf1_ ),   
+                        `CONNECT_AXI4S_MIN_IF( S_AXIS_2_ , buf2_ ),       
+                        `CONNECT_AXI4S_MIN_IF( S_AXIS_3_ , buf3_ ),
 
                         .pl_clk0( ps_clk ),
                         .pl_resetn0( ps_reset ),
                         .clk_adc0_0(adc_clk),
                         .user_sysref_adc_0( sysref_reg ));
-
-    `ifdef GOERTZEL
-        // ** GOERTZEL DESIGN **
-        localparam IW = 12;
-        localparam N = 126;
-        localparam OW = 20;
-        localparam FW = 16;
-        
-        `DEFINE_AXI4S_MIN_IF( adc0_gz0_ , IW );      // AXI4-S (ADC -> Goertzel)
-        `DEFINE_AXI4S_MIN_IF( gz0_ , 2*OW );        // AXI4-S (Goertzel -> PS)
-
-        /* Allow only one of every 16 samples to be registered by GZ module */
-        assign adc0_gz0_tdata = adc0_tdata[15:4];
-        reg gz0_enable = 1'b0;
-        always @ (posedge aclk) gz0_enable <= ~gz0_enable;
-
-        goertzel_IIR #(.IW(IW), .N(N), .OW(OW)) ch0_wave_detector(
-            .i_clk          (aclk),                // Input clk, 375 MHz
-            .i_clken        (gz0_enable),
-            .i_rst          (1'b0),     
-            `CONNECT_AXI4S_MIN_IF(s_axis_ , adc0_gz0_),  // AXI4-S for ADC -> GZ 
-            `CONNECT_AXI4S_MIN_IF(m_axis_ , gz0_ )      // AXI4-S for GZ -> PS
-        );
-
-        // ** BIT SELECT 16b RESULTS FROM DATA STREAM **
-        wire [(FW-1):0] gz0_re = gz0_tdata[39:24];
-        wire [(FW-1):0] gz0_im = gz0_tdata[19:4];
-
-        // AXI4-S Interface for GZ to PS
-        wire [(ADC_WIDTH-1):0] gz_results_tdata = {{96{1'b0}}, gz0_re, gz0_im};     // 6 samples of all zeros, then last two samples are the top 16 bits of Goertzel components
-        wire gz_results_tvalid = 1'b1;      // TODO: TEST BEHAVIOR IF THIS IS ASSIGNED TO gz0_tvalid
-        wire gz_results_tready; // nc
-
-    `endif
     
-    // ** ESSENTIALLY COPIED FROM ZCU111 FIRMWARE **
-    parameter THIS_DESIGN = "BASIC";
+    /* TEST DESIGNS */
+    parameter THIS_DESIGN = "GOERTZEL";
 
     generate
         if (THIS_DESIGN == "BASIC") begin : BSC
-            basic_design u_design(  .wb_clk_i(ps_clk),
-                            .wb_rst_i(1'b0),
-                            `CONNECT_WBS_IFS( wb_ , bm_ ),
-                            .aclk(aclk),
-                            .aresetn(1'b1),
-                            `CONNECT_AXI4S_MIN_IF( adc0_ , adc0_ ),
-                            `CONNECT_AXI4S_MIN_IF( adc1_ , adc1_ ),
-                            `CONNECT_AXI4S_MIN_IF( adc4_ , adc4_ ),
-                            `CONNECT_AXI4S_MIN_IF( adc5_ , adc5_ ),
-                            // buffers
-                            `CONNECT_AXI4S_MIN_IF( buf0_ , buf0_ ),
-                            `CONNECT_AXI4S_MIN_IF( buf1_ , buf1_ ),
-                            `CONNECT_AXI4S_MIN_IF( buf2_ , buf2_ ),
-                            `CONNECT_AXI4S_MIN_IF( buf3_ , buf3_ )); 
+
+            basic_design u_design(  
+                .wb_clk_i               (ps_clk),
+                .wb_rst_i               (1'b0),
+                `CONNECT_WBS_IFS        ( wb_ , bm_ ),
+                .aclk                   (aclk),
+                .aresetn                (1'b1),
+                `CONNECT_AXI4S_MIN_IF   ( adc0_ , adc0_ ),
+                `CONNECT_AXI4S_MIN_IF   ( adc1_ , adc1_ ),
+                `CONNECT_AXI4S_MIN_IF   ( adc4_ , adc4_ ),
+                `CONNECT_AXI4S_MIN_IF   ( adc5_ , adc5_ ),
+                // buffers
+                `CONNECT_AXI4S_MIN_IF   ( buf0_ , buf0_ ),
+                `CONNECT_AXI4S_MIN_IF   ( buf1_ , buf1_ ),
+                `CONNECT_AXI4S_MIN_IF   ( buf2_ , buf2_ ),
+                `CONNECT_AXI4S_MIN_IF   ( buf3_ , buf3_ )
+            ); 
+
+        end else if (THIS_DESIGN == "GOERTZEL") begin : GZ
+
+            gz_design u_design(
+                .aclk(aclk),
+                .arst(1'b0),
+                // ADC INPUTS
+                `CONNECT_AXI4S_MIN_IF   (s0_axis_, adc0_ ),
+                `CONNECT_AXI4S_MIN_IF   (s1_axis_, adc1_ ),
+                `CONNECT_AXI4S_MIN_IF   (s2_axis_, adc4_ ),
+                `CONNECT_AXI4S_MIN_IF   (s3_axis_, adc5_ ),
+                // BUFFER OUTPUTS
+                `CONNECT_AXI4S_MIN_IF   (m0_axis_, buf0_ ),
+                `CONNECT_AXI4S_MIN_IF   (m1_axis_, buf1_ ),
+                `CONNECT_AXI4S_MIN_IF   (m2_axis_, buf2_ ),
+                `CONNECT_AXI4S_MIN_IF   (m3_axis_, buf3_ )
+            );
+
         end
     endgenerate
     
