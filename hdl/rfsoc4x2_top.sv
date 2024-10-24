@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 `include "interfaces.vh"
-`define GOERTZEL
+
 module rfsoc4x2_top(
         input VP, // no pinloc
         input VN, // no pinloc
