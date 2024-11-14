@@ -105,25 +105,33 @@ module goertzel_IIR
 
     // * CALCULATE FINAL RESULTS, Re{X(k)}, Im{X(k)} *
     // Re{X(k)} = cos()*s[N-1] - s[N-2] = 0.5*s[N-1] - s[N-2]
-    // Im{X(k)} = sin()*s[N-1]
-    // given k/N = 1/6, 2*PI*k/N = PI/3, cos(PI/3) = 1/2, sin(PI/3) = ~0.866
-    reg signed [7:0] SIN = 8'b01101111;                     // = 111, or 0.8671875, A(0,7) format
     wire [(OW-1):0] o_result_re = (s[N-1] >>> 1) - s[N-2];
-    wire signed [(OW+7):0] mult = (SIN * s[N-1]) >>> 7;     // A(0,7) * A(a,b) = A(a+1, b+7) >>> 7 
+    // Im{X(k)} = sin()*s[N-1]
+    localparam signed [11:0] SIN = 12'b0110_1110_1110;              
+    wire signed [(OW+11):0] mult = (SIN * s[N-1]) >>> 11;   // sin(pi/3) ~ 1774 * 2^{-11}
     wire [(OW-1):0] o_result_im = mult[(OW-1):0];  
     
-    assign m_axis_tdata = {o_result_re, o_result_im};           
+    assign m_axis_tdata = {o_result_re, o_result_im};   
 
-    // * CONTROL DATA VALID FLAG *
-    // first time a result is obtained, the flag goes high. Returns to zero only on rst
-    reg o_data_valid;
-    initial o_data_valid <= 1'b0;
+    // * CALCULATION COMPLETE FLAG *
+    // each time a calculation cycle completes, the complete flag goes high for one clock cycle (with clken)
+    reg complete = 1'b0;
     always @ (posedge i_clk) begin
         if (i_clken) begin
-            if ( i_rst ) o_data_valid <= 1'b0;
-            else if ( n == (N-1) ) o_data_valid <= 1'b1;    
+            if (i_rst || complete) complete <= 1'b0;
+            else if ( n == (N-1) ) complete <= 1'b1;
         end
+    end        
+
+    // * DATA VALID FLAG *
+    // goes high after first calculation completes. Goes low on reset
+    // also goes low if it is currently high and tready is asserted by target module
+    reg o_valid = 1'b0;
+    always @ (posedge i_clk) begin
+        if (i_rst) o_valid <= 1'b0;
+        else if (complete) o_valid <= 1'b1;
+        else if (o_valid && m_axis_tready) o_valid <= 1'b0;
     end
-    assign m_axis_tvalid = o_data_valid;    
+    assign m_axis_tvalid = o_valid;
     
 endmodule

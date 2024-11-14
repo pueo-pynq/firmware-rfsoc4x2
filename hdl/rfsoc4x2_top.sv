@@ -25,7 +25,11 @@ module rfsoc4x2_top(
         input FPGA_REFCLK_IN_P, // AN11
         input FPGA_REFCLK_IN_N, // AP11
         input SYSREF_FPGA_P,    // AP18
-        input SYSREF_FPGA_N     // AR18        
+        input SYSREF_FPGA_N,    // AR18    
+        output W_LED_0,
+        output W_LED_1,
+        output W_LED_2,
+        output W_LED_3    
     );
     
     // we can't capture SYSREF at 375 MHz,
@@ -136,6 +140,9 @@ module rfsoc4x2_top(
     
     /* TEST DESIGNS */
     parameter THIS_DESIGN = "GOERTZEL";
+    assign W_LED_1 = 1'b1;
+    assign W_LED_2 = 1'b0;
+    assign W_LED_3 = 1'b1;
 
     generate
         if (THIS_DESIGN == "BASIC") begin : BSC
@@ -162,6 +169,7 @@ module rfsoc4x2_top(
             gz_design u_design(
                 .aclk(aclk),
                 .arst(1'b0),
+                .signal_detected(W_LED_0),
                 // ADC INPUTS
                 `CONNECT_AXI4S_MIN_IF   (s0_axis_, adc0_ ),
                 `CONNECT_AXI4S_MIN_IF   (s1_axis_, adc1_ ),
