@@ -8,3 +8,5 @@ hdl/gz_design.v
 verilog-library-barawn/include/interfaces.vh
 verilog-library-barawn/hdl/flag_sync.v
 pueo-pynq-designs/hdl/basic_design.sv
+pueo-pynq-designs/hdl/goertzel/goertzel_IIR.v
+pueo-pynq-designs/hdl/goertzel/gz_design.v

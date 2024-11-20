@@ -139,10 +139,7 @@ module rfsoc4x2_top(
                         .user_sysref_adc_0( sysref_reg ));
     
     /* TEST DESIGNS */
-    parameter THIS_DESIGN = "GOERTZEL";
-    assign W_LED_1 = 1'b1;
-    assign W_LED_2 = 1'b0;
-    assign W_LED_3 = 1'b1;
+    parameter THIS_DESIGN = "BASIC";
 
     generate
         if (THIS_DESIGN == "BASIC") begin : BSC
@@ -166,6 +163,10 @@ module rfsoc4x2_top(
 
         end else if (THIS_DESIGN == "GOERTZEL") begin : GZ
 
+            assign W_LED_1 = 1'b0;
+            assign W_LED_2 = 1'b0;
+            assign W_LED_3 = 1'b0;
+
             gz_design u_design(
                 .aclk(aclk),
                 .arst(1'b0),
@@ -185,4 +186,5 @@ module rfsoc4x2_top(
         end
     endgenerate
     
+
 endmodule
