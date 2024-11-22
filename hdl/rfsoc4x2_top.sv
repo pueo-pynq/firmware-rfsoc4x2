@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
 `include "interfaces.vh"
+
 module rfsoc4x2_top(
         input VP, // no pinloc
         input VN, // no pinloc
@@ -24,7 +25,11 @@ module rfsoc4x2_top(
         input FPGA_REFCLK_IN_P, // AN11
         input FPGA_REFCLK_IN_N, // AP11
         input SYSREF_FPGA_P,    // AP18
-        input SYSREF_FPGA_N     // AR18        
+        input SYSREF_FPGA_N,    // AR18    
+        output W_LED_0,
+        output W_LED_1,
+        output W_LED_2,
+        output W_LED_3    
     );
     
     // we can't capture SYSREF at 375 MHz,
@@ -36,16 +41,19 @@ module rfsoc4x2_top(
     wire aclk;
     // this is the half-speed clock used for the DACs, ADC capture, and SYSREF cap
     wire aclk_div2;
+
+    // this is 128 because we get eight 16-bit samples per clock cycle from each ADC.
+    localparam ADC_WIDTH = 128;
     // ADC AXI4-Streams
-    `DEFINE_AXI4S_MIN_IF( adc0_ , 128 );
-    `DEFINE_AXI4S_MIN_IF( adc1_ , 128 );
-    `DEFINE_AXI4S_MIN_IF( adc4_ , 128 );
-    `DEFINE_AXI4S_MIN_IF( adc5_ , 128 );
+    `DEFINE_AXI4S_MIN_IF( adc0_ , ADC_WIDTH );  // chD
+    `DEFINE_AXI4S_MIN_IF( adc1_ , ADC_WIDTH );  // chC
+    `DEFINE_AXI4S_MIN_IF( adc4_ , ADC_WIDTH );  // chB
+    `DEFINE_AXI4S_MIN_IF( adc5_ , ADC_WIDTH );  // chA
     // Streams going to readout buffers
-    `DEFINE_AXI4S_MIN_IF( buf0_ , 128 );
-    `DEFINE_AXI4S_MIN_IF( buf1_ , 128 );
-    `DEFINE_AXI4S_MIN_IF( buf2_ , 128 );
-    `DEFINE_AXI4S_MIN_IF( buf3_ , 128 );
+    `DEFINE_AXI4S_MIN_IF( buf0_ , ADC_WIDTH );
+    `DEFINE_AXI4S_MIN_IF( buf1_ , ADC_WIDTH );
+    `DEFINE_AXI4S_MIN_IF( buf2_ , ADC_WIDTH );
+    `DEFINE_AXI4S_MIN_IF( buf3_ , ADC_WIDTH );
     
     IBUFDS u_aclk_ibuf(.I(FPGA_REFCLK_IN_P),
                        .IB(FPGA_REFCLK_IN_N),
@@ -120,36 +128,63 @@ module rfsoc4x2_top(
                         .s_axi_aresetn_0( 1'b1 ),
                         .s_axis_aclk_0( aclk ),
                         .s_axis_aresetn_0( 1'b1 ),
-                        `CONNECT_AXI4S_MIN_IF( S_AXIS_0_ , adc0_ ),
-                        `CONNECT_AXI4S_MIN_IF( S_AXIS_1_ , adc1_ ),
-                        `CONNECT_AXI4S_MIN_IF( S_AXIS_2_ , adc4_ ),
-                        `CONNECT_AXI4S_MIN_IF( S_AXIS_3_ , adc5_ ),
+                        `CONNECT_AXI4S_MIN_IF( S_AXIS_0_ , buf0_ ),
+                        `CONNECT_AXI4S_MIN_IF( S_AXIS_1_ , buf1_ ),   
+                        `CONNECT_AXI4S_MIN_IF( S_AXIS_2_ , buf2_ ),       
+                        `CONNECT_AXI4S_MIN_IF( S_AXIS_3_ , buf3_ ),
 
                         .pl_clk0( ps_clk ),
                         .pl_resetn0( ps_reset ),
                         .clk_adc0_0(adc_clk),
                         .user_sysref_adc_0( sysref_reg ));
-
-    // ** ESSENTIALLY COPIED FROM ZCU111 FIRMWARE **
+    
+    /* TEST DESIGNS */
     parameter THIS_DESIGN = "BASIC";
 
     generate
         if (THIS_DESIGN == "BASIC") begin : BSC
-            basic_design u_design(  .wb_clk_i(ps_clk),
-                            .wb_rst_i(1'b0),
-                            `CONNECT_WBS_IFS( wb_ , bm_ ),
-                            .aclk(aclk),
-                            .aresetn(1'b1),
-                            `CONNECT_AXI4S_MIN_IF( adc0_ , adc0_ ),
-                            `CONNECT_AXI4S_MIN_IF( adc1_ , adc1_ ),
-                            `CONNECT_AXI4S_MIN_IF( adc4_ , adc4_ ),
-                            `CONNECT_AXI4S_MIN_IF( adc5_ , adc5_ ),
-                            // buffers
-                            `CONNECT_AXI4S_MIN_IF( buf0_ , buf0_ ),
-                            `CONNECT_AXI4S_MIN_IF( buf1_ , buf1_ ),
-                            `CONNECT_AXI4S_MIN_IF( buf2_ , buf2_ ),
-                            `CONNECT_AXI4S_MIN_IF( buf3_ , buf3_ )); 
+
+            basic_design u_design(  
+                .wb_clk_i               (ps_clk),
+                .wb_rst_i               (1'b0),
+                `CONNECT_WBS_IFS        ( wb_ , bm_ ),
+                .aclk                   (aclk),
+                .aresetn                (1'b1),
+                `CONNECT_AXI4S_MIN_IF   ( adc0_ , adc0_ ),
+                `CONNECT_AXI4S_MIN_IF   ( adc1_ , adc1_ ),
+                `CONNECT_AXI4S_MIN_IF   ( adc4_ , adc4_ ),
+                `CONNECT_AXI4S_MIN_IF   ( adc5_ , adc5_ ),
+                // buffers
+                `CONNECT_AXI4S_MIN_IF   ( buf0_ , buf0_ ),
+                `CONNECT_AXI4S_MIN_IF   ( buf1_ , buf1_ ),
+                `CONNECT_AXI4S_MIN_IF   ( buf2_ , buf2_ ),
+                `CONNECT_AXI4S_MIN_IF   ( buf3_ , buf3_ )
+            ); 
+
+        end else if (THIS_DESIGN == "GOERTZEL") begin : GZ
+
+            assign W_LED_1 = 1'b0;
+            assign W_LED_2 = 1'b0;
+            assign W_LED_3 = 1'b0;
+
+            gz_design u_design(
+                .aclk(aclk),
+                .arst(1'b0),
+                .signal_detected(W_LED_0),
+                // ADC INPUTS
+                `CONNECT_AXI4S_MIN_IF   (s0_axis_, adc0_ ),
+                `CONNECT_AXI4S_MIN_IF   (s1_axis_, adc1_ ),
+                `CONNECT_AXI4S_MIN_IF   (s2_axis_, adc4_ ),
+                `CONNECT_AXI4S_MIN_IF   (s3_axis_, adc5_ ),
+                // BUFFER OUTPUTS
+                `CONNECT_AXI4S_MIN_IF   (m0_axis_, buf0_ ),
+                `CONNECT_AXI4S_MIN_IF   (m1_axis_, buf1_ ),
+                `CONNECT_AXI4S_MIN_IF   (m2_axis_, buf2_ ),
+                `CONNECT_AXI4S_MIN_IF   (m3_axis_, buf3_ )
+            );
+
         end
     endgenerate
     
+
 endmodule
