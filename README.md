@@ -17,8 +17,8 @@ https://github.com/barawn/verilog-library-barawn/wiki/GitHub-Managed-Vivado-Repo
 - Power on the board using the power switch (labeled `PWR`).
 - On startup, the OLED screen should turn on, display some PYNQ version information, and then it will display the static IP of the board. During this process, some basic firmware included with the PYNQ image is automatically loaded into the programmable logic (PL). The `init` and `done` LEDs near the SD card slot are the status lights for this process.
 - Open up a browser and navigate to http://192.168.3.1/lab. The password is _xilinx_.
-- This will open up an instance of _JupyterLab_ which is your window to the RFSoC 4x2s operating system. I will not explain how to use JupyterLab, but a well acquainted ten year old could figure it out.
-- Create a directory wherever you'd like, called `firmware-rfsoc4x2`, or whatever, it doesn't matter.
+- This will open up an instance of _JupyterLab_ which is your interface with the RFSoC4x2 firmware. I will not explain how to use JupyterLab, but it's straightforward.
+- Create a directory wherever you'd like, called `firmware-rfsoc4x2`.
 - To this directory, you will need to add a couple of files which all be obtained once you build the firmware.
 
 |File Name|Desc|
