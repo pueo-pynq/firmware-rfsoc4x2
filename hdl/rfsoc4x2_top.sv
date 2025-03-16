@@ -139,7 +139,7 @@ module rfsoc4x2_top(
                         .user_sysref_adc_0( sysref_reg ));
     
     /* TEST DESIGNS */
-    parameter THIS_DESIGN = "BASIC";
+    parameter THIS_DESIGN = "GOERTZEL";
 
     generate
         if (THIS_DESIGN == "BASIC") begin : BSC
