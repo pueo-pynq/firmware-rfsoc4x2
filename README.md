@@ -32,6 +32,8 @@ https://github.com/barawn/verilog-library-barawn/wiki/GitHub-Managed-Vivado-Repo
 
 ## How to Build the Firmware for the RFSoC 4x2 Development Board
 
+__Important note: building this project for an RFSoC requires an RFSoC license.__
+
 __Step 1:__
 Set up a directory where you will keep the project. Using Windows 11, I keep mine in C:\Users\cdfri\Dev\Vivado-Projects
 
@@ -45,12 +47,13 @@ __Step 3:__
 Once you have the github managed Vivado repository set up, follow the instructions of the README [here](https://github.com/barawn/verilog-library-barawn/wiki/GitHub-Managed-Vivado-Repositories)
 for information as well as steps for building the repo. To summarize the steps here (and with some corrections necessary), you should do the following:
 
-  1. Download and add `pre_synthesis.tcl` from Patrick's Verilog library to the cloned Vivado project, this is one of two current issues with the firmware-rfsoc4x2 repo.
-  2. Modify the `.txt` files in the project directory to contain the _relative_ paths of all necessary project files. In the current repo, these files are mostly empty. Details below.
+  1. Ensure that the repo contains the Tcl script `pre_synthesis.tcl` from Patrick's Verilog library.
+  2. Ensure the `.txt` files in the project directory contain the _relative_ paths of all necessary project files. Details below.
   3. Open Vivado to the home page (before you open up any project).
   4. In the Tcl Terminal, type `exec cd {path/to/repo}` so that you are inside the project directory in the terminal. If you run `exec ls`, you should see all of the files in the project directory.
   5. Source the project setup script, with `source firmware-rfsoc4x2.tcl`. This should open the project for you, and you may or may not see some or all of the necessary project files loaded in already.
-  6. Once again in the Tcl terminal, run `source project_init.tcl`. This should add all of the necessary files to the project, as long as you have the paths included in the `.txt` files of the project directory.
+  6. Set the RFSoC 4x2 as the board for the project. (Settings > General > Project Device > Select 'Zynq Ultrascale+ RFSoC 4x2
+  7. Once again in the Tcl terminal, run `source project_init.tcl`. This should add all of the necessary files to the project, as long as you have the paths included in the `.txt` files of the project directory.
 
 __Step 4:__
 If this all pans out correctly, the project should be able to build (as in you should be able to generate a bitstream in Vivado). Once it finishes (and it may take a long time the first time), you need to retrieve the `.bit` file from `firmware-rfsoc4x2/vivado_project/firmware-rfsoc4x2.runs/impl_1/` and the `.hwh` file from `firmware-rfsoc4x2/bd/mts_bd/hw_handoff/`. Rename the hardware handoff file to have the same name as the bitstream file (keep the extensions different).
