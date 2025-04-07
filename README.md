@@ -36,7 +36,7 @@ __Step 1:__
 Set up a directory where you will keep the project. Using Windows 11, I keep mine in C:\Users\cdfri\Dev\Vivado-Projects
 
 __Step 2:__
-Clone [this](https://github.com/pueo-pynq/firmware-rfsoc4x2) repository within the directory that you just created. If you have git installed, you can do this with
+Clone [this](https://github.com/cdfricke/firmware-rfsoc4x2) repository within the directory that you just created. If you have git installed, you can do this with
 ```
 git clone --recursive https://github.com/pueo-pynq/firmware-rfsoc4x2
 ```
