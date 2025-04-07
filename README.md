@@ -32,7 +32,7 @@ https://github.com/barawn/verilog-library-barawn/wiki/GitHub-Managed-Vivado-Repo
 
 ## How to Build the Firmware for the RFSoC 4x2 Development Board
 
-__Important note: building this project for an RFSoC requires an RFSoC license.__
+__NOTE: building this project for an RFSoC requires an RFSoC license.__
 
 __Step 1:__
 Set up a directory where you will keep the project. Using Windows 11, I keep mine in C:\Users\cdfri\Dev\Vivado-Projects
