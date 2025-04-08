@@ -52,7 +52,7 @@ for information as well as steps for building the repo. To summarize the steps h
   3. Open Vivado to the home page (before you open up any project).
   4. In the Tcl Terminal, type `exec cd {path/to/repo}` so that you are inside the project directory in the terminal. If you run `exec ls`, you should see all of the files in the project directory.
   5. Source the project setup script, with `source firmware-rfsoc4x2.tcl`. This should open the project for you, and you may or may not see some or all of the necessary project files loaded in already.
-  6. Set the RFSoC 4x2 as the board for the project. (Settings > General > Project Device > Select 'Zynq Ultrascale+ RFSoC 4x2
+  6. Set the RFSoC 4x2 as the board for the project. (Settings > General > Project Device > Select "Zynq Ultrascale+ RFSoC 4x2". This may require finding the board files online and installing them.
   7. Once again in the Tcl terminal, run `source project_init.tcl`. This should add all of the necessary files to the project, as long as you have the paths included in the `.txt` files of the project directory.
 
 __Step 4:__
