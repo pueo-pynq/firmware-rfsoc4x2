@@ -60,7 +60,7 @@ __Step 4:__
 If this all pans out correctly, the project should be able to build (as in you should be able to generate a bitstream in Vivado). Once it finishes (and it may take a long time the first time), you need to retrieve the `.bit` file from `firmware-rfsoc4x2/vivado_project/firmware-rfsoc4x2.runs/impl_1/` and the `.hwh` file from `firmware-rfsoc4x2/bd/mts_bd/hw_handoff/`. Rename the hardware handoff file to have the same name as the bitstream file (keep the extensions different).
 
 __Step 5:__
-Open an instance of _JupyterLab_ running on the RFSoC (see above). Upload the `.bit` and `.hwh` file obtained from building the firmware in Vivado into the directory you've created along with the necessary Python files. The paths to these files are all listed in the above table. Be sure to rename the hardware handoff file (initially `mts_bd.hwh`) when you upload it to JupyterLab so that the bitstream and hardware handoff file have the same name only with their different respective filenames (`rfsoc4x2_top.bit` and `rfsoc4x2_top.hwh`).
+Open an instance of _JupyterLab_ running on the RFSoC (see above). Upload the `.bit` and `.hwh` file obtained from building the firmware in Vivado into the directory you've created along with the necessary Python files. The paths to these files are all listed in the above table. Be sure to rename the hardware handoff file (initially `mts_bd.hwh`) when you upload it to JupyterLab as mentioned in the previous step.
 
 You should now be able to import the Overlay class in `rf4x2mts.py` to a Jupyter notebook or your own Python script and start running `internal_capture()` to begin filling NumPy arrays with ADC capture data from all four channels. What you choose to do from here is up to you!
 
