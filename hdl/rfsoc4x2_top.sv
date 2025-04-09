@@ -139,7 +139,7 @@ module rfsoc4x2_top(
                         .user_sysref_adc_0( sysref_reg ));
     
     /* TEST DESIGNS */
-    parameter THIS_DESIGN = "GOERTZEL";
+    parameter THIS_DESIGN = "BASIC";
 
     generate
         if (THIS_DESIGN == "BASIC") begin : BSC
@@ -152,8 +152,8 @@ module rfsoc4x2_top(
                 .aresetn                (1'b1),
                 `CONNECT_AXI4S_MIN_IF   ( adc0_ , adc0_ ),
                 `CONNECT_AXI4S_MIN_IF   ( adc1_ , adc1_ ),
-                `CONNECT_AXI4S_MIN_IF   ( adc4_ , adc4_ ),
-                `CONNECT_AXI4S_MIN_IF   ( adc5_ , adc5_ ),
+                `CONNECT_AXI4S_MIN_IF   ( adc2_ , adc4_ ),
+                `CONNECT_AXI4S_MIN_IF   ( adc3_ , adc5_ ),
                 // buffers
                 `CONNECT_AXI4S_MIN_IF   ( buf0_ , buf0_ ),
                 `CONNECT_AXI4S_MIN_IF   ( buf1_ , buf1_ ),
