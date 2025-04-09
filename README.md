@@ -21,14 +21,14 @@ https://github.com/barawn/verilog-library-barawn/wiki/GitHub-Managed-Vivado-Repo
 - Create a directory wherever you'd like, called `firmware-rfsoc4x2`.
 - To this directory, you will need to add a couple of files which all be obtained once you build the firmware.
 
-|File Name|Desc|
-|---------|----|
-|rf4x2mts.py|Module which contains the "Overlay" class rf4x2MTS for loading our firmware.|
-|rf4x2clk.py|Dependency of `rf4x2mts.py` to set up clocking.|
-|LMK_4x2.txt|Text file dependency of `rf4x2clk.py` for programming the LMK registers to set up the clocks.|
-|LMX_4x2.txt|Text file dependency of `rf4x2clk.py` for programming the LMX registers to set up the clocks.|
-|rfsoc4x2_top.bit|Bitstream file of the firmware generated via Vivado (see below).|
-|rfsoc4x2_top.hwh|Hardware handoff file generated via Vivado (see below).|
+|File Name|Desc|Location|
+|---------|----|--------|
+|rf4x2mts.py|Module which contains the "Overlay" class rf4x2MTS for loading our firmware.|`firmware-rfsoc4x2/python/`|
+|rf4x2clk.py|Dependency of `rf4x2mts.py` to set up clocking.|`firmware-rfsoc4x2/python/`|
+|LMK_4x2.txt|Text file dependency of `rf4x2clk.py` for programming the LMK registers to set up the clocks.|`firmware-rfsoc4x2/python/`|
+|LMX_4x2.txt|Text file dependency of `rf4x2clk.py` for programming the LMX registers to set up the clocks.|`firmware-rfsoc4x2/python/`|
+|rfsoc4x2_top.bit|Bitstream file of the firmware generated via Vivado.|`firmware-rfsoc4x2/vivado_project/firmware-rfsoc4x2.runs/impl_1/`|
+|rfsoc4x2_top.hwh|Hardware handoff file generated via Vivado.|`firmware-rfsoc4x2/bd/mts_bd/hw_handoff/`|
 
 ## How to Build the Firmware for the RFSoC 4x2 Development Board
 
@@ -54,12 +54,15 @@ for information as well as steps for building the repo. To summarize the steps h
   5. Source the project setup script, with `source firmware-rfsoc4x2.tcl`. This should open the project for you, and you may or may not see some or all of the necessary project files loaded in already.
   6. Set the RFSoC 4x2 as the board for the project. (Settings > General > Project Device > Select "Zynq Ultrascale+ RFSoC 4x2". This may require finding the board files online and installing them.
   7. Once again in the Tcl terminal, run `source project_init.tcl`. This should add all of the necessary files to the project, as long as you have the paths included in the `.txt` files of the project directory.
+  8. Finally, run `source rfsoc4x2_timing.tcl`. I don't know if this step is necessary or what it does, but I did it.
 
 __Step 4:__
 If this all pans out correctly, the project should be able to build (as in you should be able to generate a bitstream in Vivado). Once it finishes (and it may take a long time the first time), you need to retrieve the `.bit` file from `firmware-rfsoc4x2/vivado_project/firmware-rfsoc4x2.runs/impl_1/` and the `.hwh` file from `firmware-rfsoc4x2/bd/mts_bd/hw_handoff/`. Rename the hardware handoff file to have the same name as the bitstream file (keep the extensions different).
 
 __Step 5:__
-Open an instance of _JupyterLab_ running on the RFSoC (see above). Upload the `.bit` and `.hwh` file obtained from building the firmware in Vivado into the directory you've created along with the necessary Python files. You should now be able to import the Overlay class in `rf4x2mts.py` to a Jupyter notebook or your own Python script and start running `internal_capture()` to begin filling NumPy arrays with ADC capture data from all four channels. What you choose to do from here is up to you!
+Open an instance of _JupyterLab_ running on the RFSoC (see above). Upload the `.bit` and `.hwh` file obtained from building the firmware in Vivado into the directory you've created along with the necessary Python files. The paths to these files are all listed in the above table. Be sure to rename the hardware handoff file (initially `mts_bd.hwh`) when you upload it to JupyterLab so that the bitstream and hardware handoff file have the same name only with their different respective filenames (`rfsoc4x2_top.bit` and `rfsoc4x2_top.hwh`).
+
+You should now be able to import the Overlay class in `rf4x2mts.py` to a Jupyter notebook or your own Python script and start running `internal_capture()` to begin filling NumPy arrays with ADC capture data from all four channels. What you choose to do from here is up to you!
 
 NOTE: If you get the error `"Debug Bridge Failed to Connect"` or something of that sort, I fixed the issue using the fix mentioned [here](https://github.com/Xilinx/PYNQ/issues/1429)
 
@@ -91,13 +94,9 @@ constraints/rfsoc4x2_pins.xdc
 constraints/rfsoc4x2_timing.tcl
 ```
 
-## Fixes / Debug Notes / Things to Address
+## Fixes
 
 1. Added missing file (`pre_synthesis.tcl`) to repo. Also added project file paths to `.txt` files in repo.
-2. When first sourcing `rfsoc4x2_timing.tcl`, warnings come up complaining about things not existing. (Don't know if I'm even supposed to source this file, but I did).
-3. Constraints file (`rfsoc4x2_pins.xdc`) does not match the inputs / outputs of the top module of the project. I don't think I'm capable of fixing this myself, though I've made some additions to it in an attempt. The current version I used with a working design is in my fork of the firmware repo [here](https://github.com/cdfricke/firmware-rfsoc4x2).
-5. Added in `basic_design.sv` from [this](https://github.com/pueo-pynq/pueo-pynq-designs) repository. Instantiated the module in `rfsoc4x2_top.sv`, similarly to the way the ZCU111 firmware does it. Also added its path to `sources.txt`. Current top module is also updated in my fork of the repo.
-6. In MTS block diagram, there are two unconnected inputs `adc1_clk_0` and `adc3_clk_0`. Unsure of why.
-7. Added AXI-S definitions (using `DEFINE_AXI4S_MIN_IF`) for `adc{0,1,4,5}` and `buf{0,1,2,3}` like in ZCU111 firmware. Connected them to `basic_design.sv`
-  
-__With all of this done, the firmware correctly captures data and sends to memory for PYNQ to interface with. These should probably be pull requests to the main repo in pueo-pynq but I'm not doing that yet...__
+2. Constraints file (`rfsoc4x2_pins.xdc`) modified.
+3. Added in `basic_design.sv` from `pueo-pynq/pueo-pynq-designs` repository.
+4. Added AXI-S definitions (using `DEFINE_AXI4S_MIN_IF`) for `adc{0,1,4,5}` and `buf{0,1,2,3}` like in ZCU111 firmware. Connected them to `basic_design.sv`
