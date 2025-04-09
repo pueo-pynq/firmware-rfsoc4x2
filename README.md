@@ -54,7 +54,6 @@ for information as well as steps for building the repo. To summarize the steps h
   5. Source the project setup script, with `source firmware-rfsoc4x2.tcl`. This should open the project for you, and you may or may not see some or all of the necessary project files loaded in already.
   6. Set the RFSoC 4x2 as the board for the project. (Settings > General > Project Device > Select "Zynq Ultrascale+ RFSoC 4x2". This may require finding the board files online and installing them.
   7. Once again in the Tcl terminal, run `source project_init.tcl`. This should add all of the necessary files to the project, as long as you have the paths included in the `.txt` files of the project directory.
-  8. Finally, run `source rfsoc4x2_timing.tcl`. I don't know if this step is necessary or what it does, but I did it.
 
 __Step 4:__
 If this all pans out correctly, the project should be able to build (as in you should be able to generate a bitstream in Vivado). Once it finishes (and it may take a long time the first time), you need to retrieve the `.bit` file from `firmware-rfsoc4x2/vivado_project/firmware-rfsoc4x2.runs/impl_1/` and the `.hwh` file from `firmware-rfsoc4x2/bd/mts_bd/hw_handoff/`. Rename the hardware handoff file to have the same name as the bitstream file (keep the extensions different).
@@ -100,3 +99,4 @@ constraints/rfsoc4x2_timing.tcl
 2. Constraints file (`rfsoc4x2_pins.xdc`) modified.
 3. Added in `basic_design.sv` from `pueo-pynq/pueo-pynq-designs` repository.
 4. Added AXI-S definitions (using `DEFINE_AXI4S_MIN_IF`) for `adc{0,1,4,5}` and `buf{0,1,2,3}` like in ZCU111 firmware. Connected them to `basic_design.sv`
+5. FIXED BASIC DESIGN ROUTING: basic_design.sv previously had adc{0,1} connected correctly, but there was a mismatch at the interface between adc{4,5} and adc{2,3}. Fixed by correcting typo in rfsoc4x2_top.sv.
