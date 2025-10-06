@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xD345A3F3C4DE237F",
+      "boundary_crc": "0xC8C6C591D65E8CC4",
       "device": "xczu48dr-ffvg1517-2-e",
       "name": "mts_bd",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
@@ -975,6 +975,9 @@
         }
       },
       "user_sysref_adc_0": {
+        "direction": "I"
+      },
+      "int_trig_i": {
         "direction": "I"
       }
     },
@@ -4789,7 +4792,7 @@
             "value": "1"
           },
           "PSU__CSUPMU__PERIPHERAL__VALID": {
-            "value": "0"
+            "value": "1"
           },
           "PSU__CSU__CSU_TAMPER_0__ENABLE": {
             "value": "0"
@@ -5083,6 +5086,9 @@
             "value": "0"
           },
           "PSU__EXPAND__UPPER_LPS_SLAVES": {
+            "value": "0"
+          },
+          "PSU__FPDMASTERS_COHERENCY": {
             "value": "0"
           },
           "PSU__FPD_SLCR__WDT1__ACT_FREQMHZ": {
@@ -5737,16 +5743,16 @@
             "value": "SD 2.0"
           },
           "PSU__SD1__CLK_100_SDR_OTAP_DLY": {
-            "value": "0x3"
+            "value": "0x0"
           },
           "PSU__SD1__CLK_200_SDR_OTAP_DLY": {
-            "value": "0x3"
+            "value": "0x0"
           },
           "PSU__SD1__CLK_50_DDR_ITAP_DLY": {
-            "value": "0x3D"
+            "value": "0x0"
           },
           "PSU__SD1__CLK_50_DDR_OTAP_DLY": {
-            "value": "0x4"
+            "value": "0x0"
           },
           "PSU__SD1__CLK_50_SDR_ITAP_DLY": {
             "value": "0x15"
@@ -6300,6 +6306,9 @@
               }
             }
           },
+          "int_trig_i": {
+            "direction": "I"
+          },
           "gpio_to_ps": {
             "direction": "O",
             "left": "15",
@@ -6528,6 +6537,12 @@
           "adc_cap_1/capture",
           "adc_cap_2/capture",
           "adc_cap_3/capture"
+        ]
+      },
+      "int_trig_i_0_1": {
+        "ports": [
+          "int_trig_i",
+          "pl_gpio_adc_if_0/int_trig_i"
         ]
       },
       "pl_gpio_adc_if_0_gpio_to_ps": {

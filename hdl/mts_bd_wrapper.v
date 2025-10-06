@@ -29,6 +29,8 @@ module mts_bd_wrapper
     adc2_clk_0_clk_n,
     adc2_clk_0_clk_p,
     clk_adc0_0,
+    
+    int_trig_i,
     dac0_clk_0_clk_n,
     dac0_clk_0_clk_p,
     m00_axis_0_tdata,
@@ -81,6 +83,7 @@ module mts_bd_wrapper
   input adc2_clk_0_clk_n;
   input adc2_clk_0_clk_p;
   output clk_adc0_0;
+  input int_trig_i;
   input dac0_clk_0_clk_n;
   input dac0_clk_0_clk_p;
   output [127:0]m00_axis_0_tdata;
@@ -188,6 +191,7 @@ module mts_bd_wrapper
         .adc2_clk_0_clk_n(adc2_clk_0_clk_n),
         .adc2_clk_0_clk_p(adc2_clk_0_clk_p),
         .clk_adc0_0(clk_adc0_0),
+        .int_trig_i(int_trig_i),
         .dac0_clk_0_clk_n(dac0_clk_0_clk_n),
         .dac0_clk_0_clk_p(dac0_clk_0_clk_p),
         .m00_axis_0_tdata(m00_axis_0_tdata),
