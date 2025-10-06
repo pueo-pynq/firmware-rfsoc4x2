@@ -37,6 +37,7 @@ class rf4x2MTS(Overlay):
         rfsoc4x2clk.set_rf_clks(lmkfn='LMK_4X2.txt',lmxfn='LMX_4X2.txt')
 
         self.gpio_trig = GPIO(GPIO.get_gpio_pin(0), 'out')
+        self.gpio_clear = GPIO(GPIO.get_gpio_pin(1), 'out')
         self.gpio_done = [ GPIO(GPIO.get_gpio_pin(8), 'in'),
                            GPIO(GPIO.get_gpio_pin(9), 'in'),
                            GPIO(GPIO.get_gpio_pin(10), 'in'),
@@ -86,8 +87,8 @@ class rf4x2MTS(Overlay):
         self.gpio_trig.write(0)
         for i in range(num_chan):
             buf[i] = np.copy(self.adcmem[i][0:len(buf[i])])
-        self.gpio_trig_write(2)
-        self.gpio_trig_write(0)
+        self.gpio_clear.write(1)
+        self.gpio_clear.write(0)
             
         
 def resolve_binary_path(bitfile_name):
