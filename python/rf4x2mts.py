@@ -86,6 +86,8 @@ class rf4x2MTS(Overlay):
         self.gpio_trig.write(0)
         for i in range(num_chan):
             buf[i] = np.copy(self.adcmem[i][0:len(buf[i])])
+        self.gpio_trig_write(2)
+        self.gpio_trig_write(0)
             
         
 def resolve_binary_path(bitfile_name):
