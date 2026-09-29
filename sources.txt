@@ -6,4 +6,3 @@ hdl/mts_bd_wrapper.v
 verilog-library-barawn/include/interfaces.vh
 pueo-pynq-designs/hdl/basic_design.sv
 hdl/rfsoc4x2_top.sv
-bd/ps_base/ps_base.bd
