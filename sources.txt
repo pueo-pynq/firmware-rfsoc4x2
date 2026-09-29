@@ -1,10 +1,9 @@
-bd/mts_bd/mts_bd.bd
-hdl/rfsoc4x2_top.sv
-hdl/mts_bd_wrapper.v
-hdl/pl_gpio_adc_if.v
 hdl/adc_cap_x2.v
-verilog-library-barawn/include/interfaces.vh
 verilog-library-barawn/hdl/flag_sync.v
+hdl/pl_gpio_adc_if.v
+bd/mts_bd/mts_bd.bd
+hdl/mts_bd_wrapper.v
+verilog-library-barawn/include/interfaces.vh
 pueo-pynq-designs/hdl/basic_design.sv
-pueo-pynq-designs/hdl/goertzel/goertzel_IIR.v
-pueo-pynq-designs/hdl/goertzel/gz_design.v
+hdl/rfsoc4x2_top.sv
+bd/ps_base/ps_base.bd
